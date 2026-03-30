@@ -7,7 +7,7 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;800&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Noto Sans KR',sans-serif;color:#222;background:#fff;max-width:480px;margin:0 auto}
+  body{font-family:'Noto Sans KR',sans-serif;color:#222;background:#fff;max-width:960px;margin:0 auto}
   .hero{height:220px;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.5)),url('https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=800&q=60') center/cover;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 20px;color:#fff}
   .hero h1{font-size:22px;font-weight:800;margin-bottom:4px}
   .hero p{font-size:12px;opacity:.85}
@@ -92,6 +92,36 @@
   .footer h2{font-size:18px;font-weight:700;margin-bottom:6px}
   .footer p{font-size:12px;color:#888;margin-bottom:16px}
   .footer-btn{display:inline-block;background:#222;color:#fff;padding:12px 32px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none}
+
+  /* === PC (640px+) === */
+  @media(min-width:640px){
+    .hero{height:320px;padding:48px 40px}
+    .hero h1{font-size:32px}
+    .hero p{font-size:15px}
+    .sec{padding:48px 40px}
+    .sec-title{font-size:20px}
+    .sec-sub{font-size:13px}
+    .grid{grid-template-columns:1fr 1fr 1fr 1fr;gap:14px}
+    .card.featured{grid-column:1/-1}
+    .card.featured .card-img{min-height:200px}
+    .card-img{height:150px}
+    .card-body .name{font-size:13px}
+    .card-body .price{font-size:16px}
+    .map-box{height:340px}
+    .minimap{height:180px}
+    .pick-grid{gap:14px}
+    .pick-img{height:130px}
+    .pick-body .name{font-size:14px}
+    .tips{grid-template-columns:1fr 1fr 1fr 1fr}
+    .footer h2{font-size:24px}
+  }
+
+  /* === 모바일 (~479px) === */
+  @media(max-width:479px){
+    body{max-width:100%}
+    .grid{grid-template-columns:1fr 1fr 1fr;gap:8px}
+    .card.featured .card-img{min-height:140px}
+  }
 </style>
 </head>
 <body>
@@ -318,6 +348,70 @@
   <p>마이리얼트립에서 예약하세요</p>
   <a href="https://www.myrealtrip.com/stay-search?keyword=%EB%8B%A4%EB%82%AD" target="_blank" class="footer-btn">다낭 숙소 전체보기</a>
 </section>
+
+<!-- ===== 로그 & 트래킹 ===== -->
+<script>
+(function(){
+  // --- 1. UTM 파라미터 수집 & 상품 링크에 자동 전달 ---
+  var params = new URLSearchParams(window.location.search);
+  var utmKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  var utmParams = {};
+  utmKeys.forEach(function(k){ if(params.get(k)) utmParams[k]=params.get(k); });
+
+  // 상품 링크(accommodation.myrealtrip.com)에 UTM 자동 붙이기
+  if(Object.keys(utmParams).length > 0){
+    var utmStr = new URLSearchParams(utmParams).toString();
+    document.querySelectorAll('a[href*="accommodation.myrealtrip.com"]').forEach(function(a){
+      a.href += (a.href.indexOf('?')>-1 ? '&' : '?') + utmStr;
+    });
+  }
+
+  // --- 2. 클릭 이벤트 로그 (GA4 + console) ---
+  document.querySelectorAll('a.card, a.pick, .zone, .area-card, .pick-cta, .footer-btn').forEach(function(el){
+    el.addEventListener('click', function(){
+      var data = {
+        action: 'click',
+        section: closestSection(el),
+        name: (el.querySelector('.name') || el.querySelector('.zone-name') || {}).textContent || el.textContent.trim().slice(0,30),
+        rank: (el.querySelector('.rank') || {}).textContent || null,
+        href: el.href || null,
+        timestamp: new Date().toISOString()
+      };
+      console.log('[TRACK]', JSON.stringify(data));
+
+      // GA4 이벤트 (GA 연결 시 자동 전송)
+      if(window.gtag){
+        gtag('event', 'promo_click', {
+          section: data.section,
+          item_name: data.name,
+          item_rank: data.rank
+        });
+      }
+    });
+  });
+
+  function closestSection(el){
+    var sec = el.closest('section');
+    if(!sec) return 'unknown';
+    if(sec.id) return sec.id;
+    var title = sec.querySelector('.sec-title');
+    return title ? title.textContent.trim().slice(0,20) : 'unknown';
+  }
+
+  // --- 3. 페이지뷰 로그 ---
+  console.log('[TRACK] pageview', {
+    url: location.href,
+    referrer: document.referrer,
+    utm: utmParams,
+    device: window.innerWidth <= 479 ? 'mobile' : window.innerWidth <= 768 ? 'tablet' : 'desktop',
+    timestamp: new Date().toISOString()
+  });
+})();
+</script>
+
+<!-- GA4 삽입 위치 (측정 ID 받으면 여기에 추가) -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script> -->
 
 </body>
 </html>
