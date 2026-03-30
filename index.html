@@ -352,13 +352,19 @@
 <!-- ===== 로그 & 트래킹 ===== -->
 <script>
 (function(){
-  // --- 1. UTM 파라미터 수집 & 상품 링크에 자동 전달 ---
+  // ============================
+  // 설정: Google Apps Script URL (구글 시트 적재용)
+  // 아래 URL을 본인의 GAS 웹앱 URL로 교체하세요
+  // ============================
+  var GAS_URL = ''; // 예: 'https://script.google.com/macros/s/xxxxx/exec'
+
+  // --- 1. UTM 수집 ---
   var params = new URLSearchParams(window.location.search);
   var utmKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
   var utmParams = {};
   utmKeys.forEach(function(k){ if(params.get(k)) utmParams[k]=params.get(k); });
 
-  // 상품 링크(accommodation.myrealtrip.com)에 UTM 자동 붙이기
+  // 상품 링크에 UTM 자동 전달
   if(Object.keys(utmParams).length > 0){
     var utmStr = new URLSearchParams(utmParams).toString();
     document.querySelectorAll('a[href*="accommodation.myrealtrip.com"]').forEach(function(a){
@@ -366,50 +372,94 @@
     });
   }
 
-  // --- 2. 클릭 이벤트 로그 (GA4 + console) ---
-  document.querySelectorAll('a.card, a.pick, .zone, .area-card, .pick-cta, .footer-btn').forEach(function(el){
-    el.addEventListener('click', function(){
-      var data = {
-        action: 'click',
-        section: closestSection(el),
-        name: (el.querySelector('.name') || el.querySelector('.zone-name') || {}).textContent || el.textContent.trim().slice(0,30),
-        rank: (el.querySelector('.rank') || {}).textContent || null,
-        href: el.href || null,
-        timestamp: new Date().toISOString()
-      };
-      console.log('[TRACK]', JSON.stringify(data));
+  // --- 2. 로그 전송 함수 ---
+  function sendLog(data){
+    data.page_url = location.href;
+    data.referrer = document.referrer;
+    data.utm_source = utmParams.utm_source || '';
+    data.utm_medium = utmParams.utm_medium || '';
+    data.utm_campaign = utmParams.utm_campaign || '';
+    data.device = window.innerWidth <= 479 ? 'mobile' : window.innerWidth <= 768 ? 'tablet' : 'desktop';
+    data.timestamp = new Date().toISOString();
 
-      // GA4 이벤트 (GA 연결 시 자동 전송)
-      if(window.gtag){
-        gtag('event', 'promo_click', {
-          section: data.section,
-          item_name: data.name,
-          item_rank: data.rank
-        });
-      }
+    console.log('[TRACK]', data);
+
+    // 구글 시트 적재
+    if(GAS_URL){
+      navigator.sendBeacon(GAS_URL + '?' + new URLSearchParams(data).toString());
+    }
+    // GA4 이벤트
+    if(window.gtag){
+      gtag('event', data.event, {
+        section: data.section,
+        item_name: data.name,
+        item_rank: data.rank
+      });
+    }
+  }
+
+  // --- 3. 페이지뷰 ---
+  sendLog({ event:'pageview', section:'', name:'', rank:'' });
+
+  // --- 4. 상품 카드 클릭 ---
+  document.querySelectorAll('a.card').forEach(function(el){
+    el.addEventListener('click', function(){
+      var sec = el.closest('section');
+      sendLog({
+        event: 'card_click',
+        section: sec && sec.id ? sec.id : (sec && sec.querySelector('.sec-title') ? sec.querySelector('.sec-title').textContent.trim() : ''),
+        name: (el.querySelector('.name') || {}).textContent || '',
+        rank: (el.querySelector('.rank') || {}).textContent || '',
+        gid: (el.href.match(/products\/(\d+)/) || [])[1] || '',
+        href: el.href
+      });
     });
   });
 
-  function closestSection(el){
-    var sec = el.closest('section');
-    if(!sec) return 'unknown';
-    if(sec.id) return sec.id;
-    var title = sec.querySelector('.sec-title');
-    return title ? title.textContent.trim().slice(0,20) : 'unknown';
-  }
+  // --- 5. 에디터 픽 클릭 ---
+  document.querySelectorAll('a.pick').forEach(function(el){
+    el.addEventListener('click', function(){
+      sendLog({
+        event: 'editor_pick_click',
+        section: 'editor_pick',
+        name: (el.querySelector('.name') || {}).textContent || '',
+        rank: (el.querySelector('.pick-badge') || {}).textContent || '',
+        gid: (el.href.match(/products\/(\d+)/) || [])[1] || '',
+        href: el.href
+      });
+    });
+  });
 
-  // --- 3. 페이지뷰 로그 ---
-  console.log('[TRACK] pageview', {
-    url: location.href,
-    referrer: document.referrer,
-    utm: utmParams,
-    device: window.innerWidth <= 479 ? 'mobile' : window.innerWidth <= 768 ? 'tablet' : 'desktop',
-    timestamp: new Date().toISOString()
+  // --- 6. 에리어 존 클릭 (지도) ---
+  document.querySelectorAll('.zone, .area-card').forEach(function(el){
+    el.addEventListener('click', function(){
+      sendLog({
+        event: 'area_click',
+        section: 'map',
+        name: (el.querySelector('.zone-name') || el.querySelector('div') || {}).textContent || '',
+        rank: '',
+        href: el.href
+      });
+    });
+  });
+
+  // --- 7. 더보기 / 네비 버튼 ---
+  document.querySelectorAll('a[href*="myrealtrip.com/stay-search"], a[href="#area-top"], a[href="#budget"], a[href="#resort"]').forEach(function(el){
+    if(el.closest('.card') || el.closest('.pick')) return; // 상품카드 제외
+    el.addEventListener('click', function(){
+      sendLog({
+        event: 'nav_click',
+        section: (el.closest('section') || {}).id || '',
+        name: el.textContent.trim().slice(0,30),
+        rank: '',
+        href: el.href
+      });
+    });
   });
 })();
 </script>
 
-<!-- GA4 삽입 위치 (측정 ID 받으면 여기에 추가) -->
+<!-- GA4 (측정 ID 받으면 주석 해제) -->
 <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script> -->
 
