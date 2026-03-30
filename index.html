@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>다낭 숙소 가이드 - 목업</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Noto Sans KR',sans-serif;color:#222;background:#fff;max-width:480px;margin:0 auto}
+  .hero{height:220px;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.5)),url('https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=800&q=60') center/cover;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 20px;color:#fff}
+  .hero h1{font-size:22px;font-weight:800;margin-bottom:4px}
+  .hero p{font-size:12px;opacity:.85}
+  .sec{padding:32px 20px}
+  .sec-title{font-size:15px;font-weight:700;margin-bottom:4px}
+  .sec-sub{font-size:12px;color:#888;margin-bottom:20px}
+  hr{border:none;border-top:1px solid #eee}
+
+  /* 여행패턴 */
+  .itin{display:flex;gap:8px}
+  .itin-item{flex:1;background:#f5f7fa;border-radius:12px;padding:16px 12px;text-align:center}
+  .itin-item .icon{font-size:24px;margin-bottom:6px}
+  .itin-item .day{font-size:10px;color:#2b96ed;font-weight:700;margin-bottom:4px}
+  .itin-item .name{font-size:13px;font-weight:700;margin-bottom:2px}
+  .itin-item .price{font-size:11px;color:#2b6cb0;background:#e8f0fe;padding:2px 8px;border-radius:6px;display:inline-block;margin-top:6px}
+  .tip-box{margin-top:12px;background:#f0f6ff;border-radius:10px;padding:14px;font-size:12px;color:#555;line-height:1.6}
+
+  /* 호텔 카드 그리드 */
+  .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  a.card{display:block;text-decoration:none;color:inherit}
+  .card{border-radius:12px;overflow:hidden;border:1px solid #eee;transition:transform .15s}
+  .card:hover{transform:translateY(-2px)}
+  .card-img{height:120px;background:#e0e5ec;position:relative;overflow:hidden}
+  .card-img img{width:100%;height:100%;object-fit:cover}
+  .card-img .rank{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.6);color:#fff;width:24px;height:24px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+  .card-img .tag{position:absolute;top:8px;right:8px;background:#ff3d6b;color:#fff;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:600}
+  .card-body{padding:10px}
+  .card-body .area{font-size:10px;color:#2b96ed;font-weight:600}
+  .card-body .name{font-size:12px;font-weight:700;margin:2px 0;line-height:1.3}
+  .card-body .usp{font-size:10px;color:#888;margin-bottom:4px}
+  .card-body .rating{font-size:11px;color:#888}
+  .card-body .price{font-size:15px;font-weight:800;margin-top:6px}
+  .card-body .price span{font-size:10px;color:#999;font-weight:400}
+
+  /* 1위 하이라이트 카드 (2컬럼 전체 사용) */
+  .card.featured{grid-column:1/-1;display:flex;flex-direction:row}
+  .card.featured .card-img{height:auto;min-height:160px;flex:0 0 50%}
+  .card.featured .card-body{display:flex;flex-direction:column;justify-content:center}
+  .card.featured .card-body .name{font-size:14px}
+
+  /* 커스텀 지도 */
+  .map-box{position:relative;border-radius:14px;height:240px;margin-bottom:16px;overflow:hidden;background:#daeaf6}
+  .map-box iframe,.minimap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;pointer-events:none}
+  .map-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2}
+  .zone{position:absolute;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;transition:all .2s}
+  .zone:hover{transform:scale(1.04);backdrop-filter:blur(2px)}
+  .zone .zone-icon{font-size:16px;margin-bottom:2px}
+  .zone .zone-name{font-size:11px;font-weight:700;text-shadow:0 1px 3px rgba(255,255,255,.9)}
+  .zone .zone-sub{font-size:8px;text-shadow:0 1px 3px rgba(255,255,255,.9)}
+  .zone .zone-cta{font-size:8px;font-weight:600;margin-top:4px;background:rgba(255,255,255,.85);padding:2px 8px;border-radius:4px}
+  .minimap{position:relative;border-radius:10px;height:150px;overflow:hidden;margin-bottom:16px}
+  .minimap .pin{position:absolute;z-index:2;width:22px;height:22px;color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+  .spots{display:flex;gap:8px}
+  .spot{flex:1;background:#f5f7fa;border-radius:10px;padding:12px;text-align:center}
+  .spot .emoji{font-size:20px}
+  .spot .sname{font-size:12px;font-weight:700;margin-top:4px}
+  .spot .sdesc{font-size:10px;color:#888;margin-top:2px}
+
+  /* 에리어 클릭 카드 */
+  .area-card{flex:1;background:#fff;border-radius:10px;padding:12px;border:1px solid #eee;cursor:pointer;transition:all .15s;text-decoration:none;display:block}
+  .area-card:hover{border-color:#2b96ed;background:#f0f6ff;transform:translateY(-2px)}
+
+  /* 에디터 픽 */
+  .pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pick{border:1px solid #eee;border-radius:12px;overflow:hidden}
+  .pick-img{height:100px;background:#e8edf3;overflow:hidden}
+  .pick-img img{width:100%;height:100%;object-fit:cover}
+  .pick-body{padding:10px}
+  .pick-badge{display:inline-block;background:#fff3e0;color:#e65100;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:700;margin-bottom:4px}
+  .pick-body .name{font-size:13px;font-weight:700;margin-bottom:4px}
+  .pick-body .reason{font-size:10px;color:#888;line-height:1.4;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .pick-cta{background:#2b96ed;color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;width:100%}
+
+  /* 팁 */
+  .tips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .tip{background:#f5f7fa;border-radius:10px;padding:14px}
+  .tip .tt{font-size:12px;font-weight:700;margin-bottom:4px}
+  .tip .td{font-size:11px;color:#666;line-height:1.5}
+
+  /* 푸터 */
+  .footer{text-align:center;padding:40px 20px}
+  .footer h2{font-size:18px;font-weight:700;margin-bottom:6px}
+  .footer p{font-size:12px;color:#888;margin-bottom:16px}
+  .footer-btn{display:inline-block;background:#222;color:#fff;padding:12px 32px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <h1>다낭, 이 숙소면 충분합니다</h1>
+  <p>3박 5일 여행자를 위한 숙소 큐레이션 가이드</p>
+</section>
+
+<!-- 에리어 가이드 + 지도 + 여행 패턴 통합 -->
+<section class="sec" id="area-top" style="background:#f8f9fb">
+  <div class="sec-title">&#128205; 다낭, 어디에 묵을까?</div>
+  <div class="sec-sub">에리어별 특징을 알면 숙소 고르기가 쉬워집니다</div>
+  <div class="map-box">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d55000!2d108.21!3d16.04!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sko!2skr" loading="lazy" style="filter:saturate(.85) brightness(1.02)"></iframe>
+    <div class="map-overlay">
+      <!-- 한강/시내 -->
+      <a href="#budget" class="zone" style="top:22%;left:5%;width:88px;height:50px;background:rgba(255,255,255,.75);border:2px solid #3b82f6;border-radius:10px;box-shadow:0 2px 8px rgba(59,130,246,.2)">
+        <div class="zone-name" style="color:#1e40af;font-size:10px">&#127961; 한강 / 시내</div>
+        <div class="zone-cta" style="color:#3b82f6;background:rgba(59,130,246,.1)">숙소 보기 &#8595;</div>
+      </a>
+      <!-- 미케비치 -->
+      <a href="#budget" class="zone" style="top:12%;left:52%;width:80px;height:48px;background:rgba(255,255,255,.7);border:1.5px solid #06b6d4;border-radius:10px;box-shadow:0 2px 8px rgba(6,182,212,.15)">
+        <div class="zone-name" style="color:#0e7490;font-size:10px">&#127958; 미케비치</div>
+        <div class="zone-cta" style="color:#06b6d4;background:rgba(6,182,212,.1)">숙소 보기 &#8595;</div>
+      </a>
+      <!-- 논누옥 -->
+      <a href="#resort" class="zone" style="top:58%;left:48%;width:85px;height:48px;background:rgba(255,255,255,.75);border:2px solid #8b5cf6;border-radius:10px;box-shadow:0 2px 8px rgba(139,92,246,.2)">
+        <div class="zone-name" style="color:#6d28d9;font-size:10px">&#127796; 논누옥</div>
+        <div class="zone-cta" style="color:#8b5cf6;background:rgba(139,92,246,.1)">리조트 보기 &#8595;</div>
+      </a>
+      <!-- 공항 -->
+      <div style="position:absolute;top:62%;left:6%;background:#fff;border-radius:14px;padding:4px 10px;font-size:9px;color:#555;box-shadow:0 2px 6px rgba(0,0,0,.12);display:flex;align-items:center;gap:3px;font-weight:600">
+        <span style="font-size:12px">&#9992;&#65039;</span> 다낭 국제공항
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:6px;margin-top:16px;margin-bottom:16px">
+    <a href="#budget" class="area-card">
+      <div style="font-size:12px;font-weight:700;color:#2b96ed;margin-bottom:4px">&#127961; 한강 / 시내</div>
+      <div style="font-size:11px;color:#666;line-height:1.4">맛집 &middot; 쇼핑 &middot; 야시장<br>공항에서 15분</div>
+      <div style="font-size:9px;color:#2b96ed;margin-top:6px;font-weight:600">10만원대 TOP &darr;</div>
+    </a>
+    <a href="#budget" class="area-card">
+      <div style="font-size:12px;font-weight:700;color:#2b96ed;margin-bottom:4px">&#127958; 미케비치</div>
+      <div style="font-size:11px;color:#666;line-height:1.4">해변 + 시내 모두 가까움<br>가성비 숙소 밀집</div>
+      <div style="font-size:9px;color:#2b96ed;margin-top:6px;font-weight:600">10만원대 TOP &darr;</div>
+    </a>
+    <a href="#resort" class="area-card">
+      <div style="font-size:12px;font-weight:700;color:#2b96ed;margin-bottom:4px">&#127796; 논누옥</div>
+      <div style="font-size:11px;color:#666;line-height:1.4">5성급 리조트 밀집<br>조용한 휴양지</div>
+      <div style="font-size:9px;color:#2b96ed;margin-top:6px;font-weight:600">리조트 TOP &darr;</div>
+    </a>
+  </div>
+
+  <div style="background:#fff;border-radius:10px;padding:14px;border:1px solid #eee;margin-top:20px">
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px">&#9992;&#65039; 3박 5일 추천 조합</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#555">
+      <span style="background:#e8f0fe;color:#2b6cb0;padding:2px 8px;border-radius:6px;font-weight:600">DAY1</span> 시내 1박 (5~9만)
+      <span style="color:#ccc">&rarr;</span>
+      <span style="background:#e8f0fe;color:#2b6cb0;padding:2px 8px;border-radius:6px;font-weight:600">DAY2-3</span> 리조트 2박 (10~20만)
+      <span style="color:#ccc">&rarr;</span>
+      <span style="background:#f5f5f5;padding:2px 8px;border-radius:6px">DAY4</span> &#9992;&#65039;
+    </div>
+    <div style="font-size:10px;color:#888;margin-top:8px">&#128161; 총 3박 약 40~60만원 &middot; 밤-밤 항공 기준</div>
+  </div>
+</section>
+
+<hr>
+
+<!-- 10만원대 TOP 10 -->
+<section class="sec" id="budget">
+  <div class="sec-title">&#128293; 10만원대 인기 숙소 TOP 10</div>
+  <div class="sec-sub">시내 &middot; 미케비치 중심 &middot; 시내 1박용으로도 딱</div>
+  <div class="minimap" style="height:140px">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d18000!2d108.235!3d16.06!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sko!2skr" loading="lazy" style="filter:saturate(.8)"></iframe>
+    <div class="pin" style="top:25%;left:22%;background:#3b82f6">1</div>
+    <div class="pin" style="top:55%;left:15%;background:#3b82f6">4</div>
+    <div class="pin" style="top:65%;left:28%;background:#3b82f6">6</div>
+    <div class="pin" style="top:75%;left:18%;background:#3b82f6">7</div>
+    <div class="pin" style="top:30%;left:55%;background:#06b6d4">3</div>
+    <div class="pin" style="top:50%;left:62%;background:#06b6d4">5</div>
+    <div class="pin" style="top:70%;left:58%;background:#06b6d4">8</div>
+    <div class="pin" style="top:25%;left:65%;background:#06b6d4">9</div>
+  </div>
+  <div class="grid">
+    <a href="https://accommodation.myrealtrip.com/union/products/4308191" target="_blank" class="card featured">
+      <div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/03/fQv5/3GU1G67YtJ.png?width=400"><div class="rank">1</div><div class="tag">메가딜</div></div>
+      <div class="card-body"><div class="area">손트라 · 5성급</div><div class="name">멜리아 빈펄 리버프런트</div><div class="usp">한강뷰 · 인피니티풀 · 5성급 9만원대</div><div class="price">95,710원 <span>/박</span></div></div>
+    </a>
+    <a href="https://accommodation.myrealtrip.com/union/products/5607074" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/24/ebkN/uShjZ9tNbk.jpg?width=400"><div class="rank">2</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">오행산 · 5성급</div><div class="name">TMS 호텔 비치</div><div class="usp">비치프론트 · 오행산 도보</div><div class="price">129,277원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/5015942" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2025/12/12/GW3o/NqFxaBM2fr.jpg?width=400"><div class="rank">3</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">시티센터 · 5성급</div><div class="name">노보텔 프리미어 한리버</div><div class="usp">한강뷰 · 루프탑바</div><div class="price">108,310원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/3441552" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/09/sh28/lySPR8n0c9.jpg?width=400"><div class="rank">4</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">시티센터 · 4성급</div><div class="name">브릴리언트 호텔</div><div class="usp">한강뷰 · 루프탑풀 · 리뷰 1,014건</div><div class="price">95,791원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/1213937" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/06/20/UoSA/Vgu6VBXvNy.jpg?width=400"><div class="rank">5</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">프억미 · 4성급</div><div class="name">알라카르트 다낭 비치</div><div class="usp">미케비치 앞 · 리뷰 최다 1,589건</div><div class="price">90,599원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/1300687" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/02/12/jcHU/DGR7b6kSGj.jpg?width=400"><div class="rank">6</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">시티센터 · 5성급</div><div class="name">힐튼 다낭</div><div class="usp">글로벌 브랜드 · 용다리 도보 5분</div><div class="price">120,772원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/3441534" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/02/04/OkJ0/j6c40lkqHF.jpeg?width=400"><div class="rank">7</div></div><div class="card-body"><div class="area">시티센터 · 4성급</div><div class="name">사티야 호텔</div><div class="usp">시내 중심 · 리뷰 753건</div><div class="price">67,645원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/2609665" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/01/05/xAkG/5JCoWET85a.jpg?width=400"><div class="rank">8</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">프억미 · 5성급</div><div class="name">어웨이큰 호텔</div><div class="usp">미케비치 앞 · 감성 인테리어</div><div class="price">96,099원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/3404855" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/19/8TAY/eWtRpG7DPD.png?width=400"><div class="rank">9</div></div><div class="card-body"><div class="area">시티센터 · 4성급</div><div class="name">윙크 호텔 센터</div><div class="usp">신상 호텔 · 첫날 1박 최적</div><div class="price">58,625원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/1240949" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2025/07/02/qTa4/3Iku4dUonr.jpg?width=400"><div class="rank">10</div></div><div class="card-body"><div class="area">시티센터 · 5성급</div><div class="name">더 블로섬 리조트</div><div class="usp">한강 위 섬 리조트 · 독특한 로케이션</div><div class="price">94,048원 <span>/박</span></div></div></a>
+  </div>
+  <a href="https://www.myrealtrip.com/stay-search?keyword=%EB%8B%A4%EB%82%AD&maxPrice=200000" target="_blank" style="display:block;text-align:center;padding:10px;border:1px solid #eee;border-radius:8px;font-size:12px;font-weight:600;color:#222;text-decoration:none;margin-top:16px">10만원대 숙소 더보기 &rarr;</a>
+  <div style="display:flex;gap:8px;margin-top:8px">
+    <a href="#area-top" style="flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:11px;font-weight:600;color:#555;text-decoration:none">&#128205; 전체 지도</a>
+    <a href="#resort" style="flex:1;text-align:center;padding:10px;background:#2b96ed;border-radius:8px;font-size:11px;font-weight:600;color:#fff;text-decoration:none">&#127958; 리조트 TOP &darr;</a>
+  </div>
+</section>
+
+<hr>
+
+<!-- 리조트 TOP 10 -->
+<section class="sec" id="resort">
+  <div class="sec-title">&#127958; 리조트 TOP 10</div>
+  <div class="sec-sub">논누옥 &middot; 호아하이 중심 &middot; 2~3박 비치 리조트</div>
+  <div class="minimap" style="height:140px">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15000!2d108.25!3d15.97!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sko!2skr" loading="lazy" style="filter:saturate(.8)"></iframe>
+    <div class="pin" style="top:20%;left:25%;background:#8b5cf6">1</div>
+    <div class="pin" style="top:30%;left:45%;background:#8b5cf6">2</div>
+    <div class="pin" style="top:45%;left:35%;background:#8b5cf6">3</div>
+    <div class="pin" style="top:35%;left:60%;background:#8b5cf6">4</div>
+    <div class="pin" style="top:55%;left:50%;background:#8b5cf6">5</div>
+    <div class="pin" style="top:25%;left:68%;background:#8b5cf6">6</div>
+    <div class="pin" style="top:65%;left:30%;background:#8b5cf6">7</div>
+    <div class="pin" style="top:50%;left:70%;background:#8b5cf6">8</div>
+  </div>
+  <div class="grid">
+    <a href="https://accommodation.myrealtrip.com/union/products/4342348" target="_blank" class="card featured">
+      <div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/02/27/5dF4/f3S6ahh0Th.jpg?width=400"><div class="rank">1</div><div class="tag">메가딜</div></div>
+      <div class="card-body"><div class="area">오행산 · 5성급 리조트</div><div class="name">푸라마 리조트 다낭</div><div class="usp">다낭 원조 리조트 · 프라이빗 비치 · 리뷰 1,031건</div><div class="price">315,761원 <span>/박</span></div></div>
+    </a>
+    <a href="https://accommodation.myrealtrip.com/union/products/3411990" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2025/11/21/yQ0X/rRtdZ4gt98.png?width=400"><div class="rank">2</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">호아하이 · 5성급</div><div class="name">하얏트 리젠시</div><div class="usp">빌라 옵션 · 리뷰 1,018건</div><div class="price">476,852원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/3667318" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2025/03/21/WJTw/H9yoHTuzk6.png?width=400"><div class="rank">3</div></div><div class="card-body"><div class="area">오행산 · 5성급</div><div class="name">풀만 비치 리조트</div><div class="usp">프라이빗 비치 · 리뷰 1,010건</div><div class="price">232,999원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/5509116" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/02/04/t9j2/95LXrVzj6n.jpg?width=400"><div class="rank">4</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">오행산 · 5성급</div><div class="name">티아 웰니스</div><div class="usp">웰니스 특화 · 스파 · 리뷰 932건</div><div class="price">577,293원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4335809" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/25/e7E5/I1Zs42NkyA.jpg?width=400"><div class="rank">5</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">호아하이 · 5성급</div><div class="name">나만 리트리트</div><div class="usp">빌라형 · 허니문 인기 · 위시 1,679</div><div class="price">136,203원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4489791" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/02/13/s20z/zfyM6HS17b.jpg?width=400"><div class="rank">6</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">논누옥 · 5성급</div><div class="name">멜리아 비치리조트</div><div class="usp">키즈풀 · 가족여행 인기</div><div class="price">158,184원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4418517" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2025/05/12/XcbI/hG91iMddoO.jpg?width=400"><div class="rank">7</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">호아하이 · 5성급</div><div class="name">메리어트 논누억 빌라</div><div class="usp">풀빌라 · 프라이빗풀 · 최고급</div><div class="price">488,544원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/1325310" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2025/07/20/rGEd/UIMVfXqOQZ.jpg?width=400"><div class="rank">8</div></div><div class="card-body"><div class="area">논누옥 · 5성급</div><div class="name">쉐라톤 그랜드</div><div class="usp">글로벌 브랜드 · 스파 유명</div><div class="price">233,080원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/5022540" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/16/N03g/Bwbp2XzrHT.jpg?width=400"><div class="rank">9</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">논누옥 · 5성급</div><div class="name">메리어트 리조트&스파</div><div class="usp">신상 · 올인클루시브</div><div class="price">351,341원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4915441" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/04/EwfY/82CyOtSCz5.jpg?width=400"><div class="rank">10</div><div class="tag">메가딜</div></div><div class="card-body"><div class="area">린찌에우 · 5성급</div><div class="name">미카즈키 리조트</div><div class="usp">온천스파 · 워터파크 포함</div><div class="price">210,450원 <span>/박</span></div></div></a>
+  </div>
+  <a href="https://www.myrealtrip.com/stay-search?keyword=%EB%8B%A4%EB%82%AD&stayTypes=RESORTS" target="_blank" style="display:block;text-align:center;padding:10px;border:1px solid #eee;border-radius:8px;font-size:12px;font-weight:600;color:#222;text-decoration:none;margin-top:16px">리조트 더보기 &rarr;</a>
+  <div style="display:flex;gap:8px;margin-top:8px">
+    <a href="#area-top" style="flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:11px;font-weight:600;color:#555;text-decoration:none">&#128205; 전체 지도</a>
+    <a href="#budget" style="flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:11px;font-weight:600;color:#555;text-decoration:none">&#128293; 10만원대 TOP</a>
+  </div>
+</section>
+
+<hr>
+
+<!-- 에디터 픽 -->
+<section class="sec">
+  <div class="sec-title">&#10024; Editor's Pick</div>
+  <div class="sec-sub">베트남 담당 BDM이 직접 고른 숙소</div>
+  <div class="pick-grid">
+    <a href="https://accommodation.myrealtrip.com/union/products/4308191" target="_blank" class="pick" style="text-decoration:none;color:inherit">
+      <div class="pick-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/03/fQv5/3GU1G67YtJ.png?width=400"></div>
+      <div class="pick-body">
+        <div class="pick-badge">BEST VALUE</div>
+        <div class="name">멜리아 빈펄</div>
+        <div class="reason">"5성급인데 9만원대. 시내 1박 이거면 끝"</div>
+        <button class="pick-cta">95,710원/박 &rarr;</button>
+      </div>
+    </a>
+    <a href="https://accommodation.myrealtrip.com/union/products/3667318" target="_blank" class="pick" style="text-decoration:none;color:inherit">
+      <div class="pick-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2025/03/21/WJTw/H9yoHTuzk6.png?width=400"></div>
+      <div class="pick-body">
+        <div class="pick-badge">MOST LOVED</div>
+        <div class="name">풀만 비치 리조트</div>
+        <div class="reason">"리뷰 1,010건 검증. 리조트 고민되면 여기"</div>
+        <button class="pick-cta">232,999원/박 &rarr;</button>
+      </div>
+    </a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4335809" target="_blank" class="pick" style="text-decoration:none;color:inherit">
+      <div class="pick-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/25/e7E5/I1Zs42NkyA.jpg?width=400"></div>
+      <div class="pick-body">
+        <div class="pick-badge">HONEYMOON</div>
+        <div class="name">나만 리트리트</div>
+        <div class="reason">"빌라형 리조트. 커플/허니문이면 여기"</div>
+        <button class="pick-cta">136,203원/박 &rarr;</button>
+      </div>
+    </a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4489791" target="_blank" class="pick" style="text-decoration:none;color:inherit">
+      <div class="pick-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/02/13/s20z/zfyM6HS17b.jpg?width=400"></div>
+      <div class="pick-body">
+        <div class="pick-badge">FAMILY PICK</div>
+        <div class="name">멜리아 비치리조트</div>
+        <div class="reason">"키즈풀 완비. 아이랑 가면 여기"</div>
+        <button class="pick-cta">158,184원/박 &rarr;</button>
+      </div>
+    </a>
+  </div>
+</section>
+
+<hr>
+
+<!-- 주변 여행 스팟 (가볍게) -->
+<section class="sec" style="background:#f8f9fb">
+  <div class="sec-title">&#127961; 숙소 근처 여행 스팟</div>
+  <div class="sec-sub">투어 티켓도 함께 확인하세요</div>
+  <div class="spots">
+    <div class="spot"><div class="emoji">&#127960;</div><div class="sname">바나힐</div><div class="sdesc">차 40분 &middot; 골든브릿지</div></div>
+    <div class="spot"><div class="emoji">&#127982;</div><div class="sname">호이안</div><div class="sdesc">차 30분 &middot; 야경 필수</div></div>
+    <div class="spot"><div class="emoji">&#9968;&#65039;</div><div class="sname">오행산</div><div class="sdesc">리조트 근처 &middot; 동굴사원</div></div>
+  </div>
+</section>
+
+<hr>
+
+<!-- 꿀팁 -->
+<section class="sec">
+  <div class="sec-title">&#128161; 다낭 여행 꿀팁</div>
+  <div class="sec-sub" style="margin-bottom:12px">알고 가면 더 좋은 정보들</div>
+  <div class="tips">
+    <div class="tip"><div class="tt">&#9728;&#65039; 베스트 시즌</div><div class="td">건기 2~7월 최적<br>10~11월 태풍 주의</div></div>
+    <div class="tip"><div class="tt">&#128661; 공항 이동</div><div class="td">미케비치 15분 5천원<br>호이안 40분 1.5만원</div></div>
+    <div class="tip"><div class="tt">&#128176; 환전</div><div class="td">달러→현지 동 환전<br>금은방 환율 최고</div></div>
+    <div class="tip"><div class="tt">&#128205; 에리어</div><div class="td">미케비치: 해변+시내<br>논누옥: 리조트 밀집</div></div>
+  </div>
+</section>
+
+<!-- 푸터 -->
+<section class="footer">
+  <h2>다낭 숙소, 고민 끝!</h2>
+  <p>마이리얼트립에서 예약하세요</p>
+  <a href="https://www.myrealtrip.com/stay-search?keyword=%EB%8B%A4%EB%82%AD" target="_blank" class="footer-btn">다낭 숙소 전체보기</a>
+</section>
+
+</body>
+</html>
