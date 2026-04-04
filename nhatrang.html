@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나트랑 숙소 추천 2026 | 시내 호텔 & 깜란 리조트 TOP</title>
+<meta name="description" content="나트랑 3박5일 여행자를 위한 숙소 큐레이션. 시내 가성비 호텔부터 깜란 리조트, 절벽 오션뷰까지. 실구매 데이터 기반 TOP 추천.">
+<meta name="keywords" content="나트랑 숙소, 나트랑 호텔 추천, 깜란 리조트, 나트랑 가성비 호텔, 나트랑비치 호텔, 멜리아 빈펄 깜란, 아미아나 나트랑, 나트랑 여행, 나트랑 3박5일">
+
+<!-- OG -->
+<meta property="og:title" content="나트랑 숙소 추천 2026 | 시내 호텔 & 깜란 리조트 TOP">
+<meta property="og:description" content="시내 1박 + 깜란 리조트 2박이 정답. 실구매 데이터로 고른 나트랑 숙소 큐레이션.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1573790387438-4da905039392?w=1200&q=80">
+<meta property="og:url" content="https://nhatrang-stay-guide.vercel.app">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+
+<!-- 트위터/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="나트랑 숙소 추천 2026 | 시내 호텔 & 깜란 리조트 TOP">
+<meta name="twitter:description" content="시내 1박 + 깜란 리조트 2박이 정답. 실구매 데이터 기반 큐레이션.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1573790387438-4da905039392?w=1200&q=80">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Noto Sans KR',sans-serif;color:#222;background:#fff;max-width:960px;margin:0 auto}
+  .hero{height:220px;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.5)),url('https://images.unsplash.com/photo-1573790387438-4da905039392?w=800&q=60') center/cover;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 20px;color:#fff}
+  .hero h1{font-size:22px;font-weight:800;margin-bottom:4px}
+  .hero p{font-size:12px;opacity:.85}
+  .sec{padding:32px 20px}
+  .sec-title{font-size:15px;font-weight:700;margin-bottom:4px}
+  .sec-sub{font-size:12px;color:#888;margin-bottom:20px}
+  hr{border:none;border-top:1px solid #eee}
+
+  /* 인기 조합 */
+  .combo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:0}
+  .combo-card{background:#fff;border:1px solid #eee;border-radius:12px;padding:14px;text-align:center}
+  .combo-card .combo-rank{font-size:10px;font-weight:700;color:#2b96ed;margin-bottom:6px}
+  .combo-card .combo-title{font-size:12px;font-weight:700;margin-bottom:4px;line-height:1.4}
+  .combo-card .combo-desc{font-size:10px;color:#888;line-height:1.4;margin-bottom:6px}
+  .combo-card .combo-badge{display:inline-block;background:#e8f0fe;color:#2b6cb0;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600}
+
+  /* 호텔 카드 그리드 */
+  .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  a.card{display:block;text-decoration:none;color:inherit}
+  .card{border-radius:12px;overflow:hidden;border:1px solid #eee;transition:transform .15s}
+  .card:hover{transform:translateY(-2px)}
+  .card-img{height:120px;background:#e0e5ec;position:relative;overflow:hidden}
+  .card-img img{width:100%;height:100%;object-fit:cover}
+  .card-img .rank{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.6);color:#fff;width:24px;height:24px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+  .card-img .tag{position:absolute;top:8px;right:8px;background:#ff3d6b;color:#fff;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:600}
+  .card-body{padding:10px}
+  .card-body .area{font-size:10px;color:#2b96ed;font-weight:600}
+  .card-body .name{font-size:12px;font-weight:700;margin:2px 0;line-height:1.3}
+  .card-body .usp{font-size:10px;color:#888;margin-bottom:4px}
+  .card-body .rating{font-size:11px;color:#888}
+  .card-body .price{font-size:15px;font-weight:800;margin-top:6px}
+  .card-body .price span{font-size:10px;color:#999;font-weight:400}
+  .card-body .cm-badge{font-size:9px;color:#e65100;background:#fff3e0;padding:1px 6px;border-radius:4px;font-weight:700;margin-top:3px;display:inline-block}
+
+  /* 1위 하이라이트 카드 */
+  .card.featured{grid-column:1/-1;display:flex;flex-direction:row}
+  .card.featured .card-img{height:auto;min-height:160px;flex:0 0 50%}
+  .card.featured .card-body{display:flex;flex-direction:column;justify-content:center}
+  .card.featured .card-body .name{font-size:14px}
+
+  /* 커스텀 지도 */
+  .map-box{position:relative;border-radius:14px;height:240px;margin-bottom:16px;overflow:hidden;background:#daeaf6}
+  .map-box iframe,.minimap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;pointer-events:none}
+  .map-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2}
+  .zone{position:absolute;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;transition:all .2s}
+  .zone:hover{transform:scale(1.04);backdrop-filter:blur(2px)}
+  .zone .zone-icon{font-size:16px;margin-bottom:2px}
+  .zone .zone-name{font-size:11px;font-weight:700;text-shadow:0 1px 3px rgba(255,255,255,.9)}
+  .zone .zone-sub{font-size:8px;text-shadow:0 1px 3px rgba(255,255,255,.9)}
+  .zone .zone-cta{font-size:8px;font-weight:600;margin-top:4px;background:rgba(255,255,255,.85);padding:2px 8px;border-radius:4px}
+  .minimap{position:relative;border-radius:10px;height:150px;overflow:hidden;margin-bottom:16px}
+  .minimap .pin{position:absolute;z-index:2;width:22px;height:22px;color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+  .spots{display:flex;gap:8px}
+  .spot{flex:1;background:#f5f7fa;border-radius:10px;padding:12px;text-align:center}
+  .spot .emoji{font-size:20px}
+  .spot .sname{font-size:12px;font-weight:700;margin-top:4px}
+  .spot .sdesc{font-size:10px;color:#888;margin-top:2px}
+
+  /* 에리어 클릭 카드 */
+  .area-card{flex:1;background:#fff;border-radius:10px;padding:12px;border:1px solid #eee;cursor:pointer;transition:all .15s;text-decoration:none;display:block}
+  .area-card:hover{border-color:#2b96ed;background:#f0f6ff;transform:translateY(-2px)}
+
+  /* 절벽 섹션 */
+  .cliff-sec{background:#fdf8f3}
+  .cliff-sec .area-label{color:#d97706;font-weight:700}
+  .card.cliff-featured{grid-column:1/-1;display:flex;flex-direction:row}
+  .card.cliff-featured .card-img{height:auto;min-height:160px;flex:0 0 50%}
+  .card.cliff-featured .card-body{display:flex;flex-direction:column;justify-content:center}
+  .card.cliff-featured .card-body .name{font-size:14px}
+
+  /* 푸터 */
+  .footer{text-align:center;padding:40px 20px}
+  .footer h2{font-size:18px;font-weight:700;margin-bottom:6px}
+  .footer p{font-size:12px;color:#888;margin-bottom:16px}
+  .footer-btn{display:inline-block;background:#222;color:#fff;padding:12px 32px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none}
+
+  /* === PC (640px+) === */
+  @media(min-width:640px){
+    .hero{height:320px;padding:48px 40px}
+    .hero h1{font-size:32px}
+    .hero p{font-size:15px}
+    .sec{padding:48px 40px}
+    .sec-title{font-size:20px}
+    .sec-sub{font-size:13px}
+    .grid{grid-template-columns:1fr 1fr 1fr 1fr;gap:14px}
+    .card.featured{grid-column:1/-1}
+    .card.featured .card-img{min-height:200px}
+    .card.cliff-featured{grid-column:1/-1}
+    .card.cliff-featured .card-img{min-height:200px}
+    .card-img{height:150px}
+    .card-body .name{font-size:13px}
+    .card-body .price{font-size:16px}
+    .map-box{height:340px}
+    .minimap{height:180px}
+    .combo-grid{gap:14px}
+    .footer h2{font-size:24px}
+  }
+
+  /* === 모바일 (~479px) === */
+  @media(max-width:479px){
+    body{max-width:100%}
+    .grid{grid-template-columns:1fr 1fr 1fr;gap:8px}
+    .combo-grid{grid-template-columns:1fr;gap:8px}
+    .card.featured .card-img{min-height:140px}
+    .card.cliff-featured .card-img{min-height:140px}
+  }
+</style>
+</head>
+<body>
+
+<!-- 히어로 -->
+<section class="hero">
+  <h1>나트랑, 시내 1박 + 리조트 2박이 정답</h1>
+  <p>실구매 데이터로 고른 에리어별 숙소 큐레이션 가이드</p>
+</section>
+
+<!-- 에리어 가이드 + 지도 -->
+<section class="sec" id="area-top" style="background:#f8f9fb">
+  <div class="sec-title">&#128205; 나트랑, 어디에 묵을까?</div>
+  <div class="sec-sub">에리어별 특징을 알면 숙소 고르기가 쉬워집니다</div>
+  <div class="map-box">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d80000!2d109.19!3d12.24!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f10!5e0!3m2!1sko!2skr" loading="lazy" style="filter:saturate(.85) brightness(1.02)"></iframe>
+    <div class="map-overlay">
+      <!-- 나트랑 시내 -->
+      <a href="#city" class="zone" style="top:18%;left:8%;width:92px;height:52px;background:rgba(255,255,255,.75);border:2px solid #3b82f6;border-radius:10px;box-shadow:0 2px 8px rgba(59,130,246,.2)">
+        <div class="zone-name" style="color:#1e40af;font-size:10px">&#127961; 나트랑 시내</div>
+        <div class="zone-cta" style="color:#3b82f6;background:rgba(59,130,246,.1)">숙소 보기 &#8595;</div>
+      </a>
+      <!-- 깜란 -->
+      <a href="#camranh" class="zone" style="top:62%;left:44%;width:85px;height:50px;background:rgba(255,255,255,.75);border:2px solid #8b5cf6;border-radius:10px;box-shadow:0 2px 8px rgba(139,92,246,.2)">
+        <div class="zone-name" style="color:#6d28d9;font-size:10px">&#127796; 깜란 리조트</div>
+        <div class="zone-cta" style="color:#8b5cf6;background:rgba(139,92,246,.1)">리조트 보기 &#8595;</div>
+      </a>
+      <!-- 절벽라인 -->
+      <a href="#cliff" class="zone" style="top:30%;left:56%;width:85px;height:52px;background:rgba(255,255,255,.75);border:2px solid #d97706;border-radius:10px;box-shadow:0 2px 8px rgba(217,119,6,.2)">
+        <div class="zone-name" style="color:#92400e;font-size:10px">&#9968;&#65039; 절벽 라인</div>
+        <div class="zone-cta" style="color:#d97706;background:rgba(217,119,6,.1)">절벽뷰 보기 &#8595;</div>
+      </a>
+      <!-- 공항 -->
+      <div style="position:absolute;top:72%;left:5%;background:#fff;border-radius:14px;padding:4px 10px;font-size:9px;color:#555;box-shadow:0 2px 6px rgba(0,0,0,.12);display:flex;align-items:center;gap:3px;font-weight:600">
+        <span style="font-size:12px">&#9992;&#65039;</span> 깜란 국제공항
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:6px;margin-top:16px;margin-bottom:16px">
+    <a href="#city" class="area-card">
+      <div style="font-size:12px;font-weight:700;color:#3b82f6;margin-bottom:4px">&#127961; 나트랑 시내</div>
+      <div style="font-size:11px;color:#666;line-height:1.4">나트랑비치 앞 &middot; 루프탑풀<br>5~10만원대</div>
+      <div style="font-size:9px;color:#3b82f6;margin-top:6px;font-weight:600">시내 TOP &darr;</div>
+    </a>
+    <a href="#camranh" class="area-card">
+      <div style="font-size:12px;font-weight:700;color:#8b5cf6;margin-bottom:4px">&#127796; 깜란</div>
+      <div style="font-size:11px;color:#666;line-height:1.4">전용해변 &middot; 올인클루시브<br>15~40만원대</div>
+      <div style="font-size:9px;color:#8b5cf6;margin-top:6px;font-weight:600">리조트 TOP &darr;</div>
+    </a>
+    <a href="#cliff" class="area-card">
+      <div style="font-size:12px;font-weight:700;color:#d97706;margin-bottom:4px">&#9968;&#65039; 절벽 라인</div>
+      <div style="font-size:11px;color:#666;line-height:1.4">발리 분위기 &middot; 절벽 오션뷰<br>프리미엄</div>
+      <div style="font-size:9px;color:#d97706;margin-top:6px;font-weight:600">절벽뷰 보기 &darr;</div>
+    </a>
+  </div>
+
+  <div style="background:#fff;border-radius:10px;padding:14px;border:1px solid #eee;margin-top:20px">
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px">&#9992;&#65039; 3박 5일 추천 조합</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#555;flex-wrap:wrap">
+      <span style="background:#e8f0fe;color:#2b6cb0;padding:2px 8px;border-radius:6px;font-weight:600">DAY1</span> 시내 1박 (5~10만)
+      <span style="color:#ccc">&rarr;</span>
+      <span style="background:#e8f0fe;color:#2b6cb0;padding:2px 8px;border-radius:6px;font-weight:600">DAY2-3</span> 깜란/절벽 리조트 2박 (15~40만)
+      <span style="color:#ccc">&rarr;</span>
+      <span style="background:#f5f5f5;padding:2px 8px;border-radius:6px">DAY4</span> &#9992;&#65039;
+    </div>
+    <div style="font-size:10px;color:#888;margin-top:8px">&#128161; 실제 구매자 30%가 이 조합! (Q1 데이터 기반)</div>
+  </div>
+</section>
+
+<hr>
+
+<!-- 인기 조합 BEST 3 -->
+<section class="sec" id="combo">
+  <div class="sec-title">&#127942; 인기 조합 BEST 3</div>
+  <div class="sec-sub">실구매 데이터 기반 · 가장 많이 선택한 숙소 조합</div>
+  <div class="combo-grid">
+    <div class="combo-card">
+      <div class="combo-rank">&#129351; COMBO 1</div>
+      <div class="combo-title">르모어 호텔<br>+ 멜리아 빈펄 깜란</div>
+      <div class="combo-desc">시내 1박(9만) + 리조트 2박<br>결합구매 최다 조합</div>
+      <div class="combo-badge">36건 판매</div>
+    </div>
+    <div class="combo-card">
+      <div class="combo-rank">&#129352; COMBO 2</div>
+      <div class="combo-title">시내 저가<br>+ 아미아나 나트랑</div>
+      <div class="combo-desc">시내 1박 + 절벽 리조트 2박<br>SN GMV 1위 조합</div>
+      <div class="combo-badge">절벽뷰 인기</div>
+    </div>
+    <div class="combo-card">
+      <div class="combo-rank">&#129353; COMBO 3</div>
+      <div class="combo-title">시내 저가<br>+ 더 아남 깜란</div>
+      <div class="combo-desc">시내 1박 + 프리미엄 리조트 2박<br>럭셔리 선호 고객</div>
+      <div class="combo-badge">프리미엄 픽</div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- 시내 TOP 11 -->
+<section class="sec" id="city">
+  <div class="sec-title">&#127961; 시내 가성비 TOP 11</div>
+  <div class="sec-sub">나트랑비치 &middot; 시내 중심 &middot; CM 기반 정렬</div>
+  <div class="minimap" style="height:140px">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d12000!2d109.195!3d12.245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sko!2skr" loading="lazy" style="filter:saturate(.8)"></iframe>
+    <div class="pin" style="top:30%;left:25%;background:#3b82f6">1</div>
+    <div class="pin" style="top:45%;left:35%;background:#3b82f6">2</div>
+    <div class="pin" style="top:20%;left:50%;background:#3b82f6">3</div>
+    <div class="pin" style="top:55%;left:55%;background:#3b82f6">4</div>
+    <div class="pin" style="top:35%;left:65%;background:#3b82f6">5</div>
+    <div class="pin" style="top:65%;left:40%;background:#3b82f6">6</div>
+    <div class="pin" style="top:25%;left:72%;background:#3b82f6">7</div>
+  </div>
+  <div class="grid">
+    <!-- 1위 featured -->
+    <a href="https://accommodation.myrealtrip.com/union/products/5614892" target="_blank" class="card featured">
+      <div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/16/n0l2/UhVY82iP3Q.jpg?width=400"><div class="rank">1</div><div class="tag">결합구매 1위</div></div>
+      <div class="card-body">
+        <div class="area">나트랑 시내</div>
+        <div class="name">르모어 호텔</div>
+        <div class="usp">결합구매 1위 · 시내 중심 · 가성비 갑</div>
+        <div class="cm-badge">Q1 CM 18.3만 · 313건</div>
+        <div class="price">&#9733; 4.5 <span style="font-size:11px;color:#222;font-weight:700;margin-left:6px">시내 1박 대표 픽</span></div>
+      </div>
+    </a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4320814" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2025/10/21/0ZTq/WiGoRWRbAJ.jpg?width=400"><div class="rank">2</div></div><div class="card-body"><div class="area">나트랑 시내</div><div class="name">레스참 호텔</div><div class="usp">맛집 도보권 · 재방문율 높음</div><div class="cm-badge">Q1 CM 18.7만 · 227건</div><div class="price">&#9733; 4.7</div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/5614895" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/25/YgaV/50HDNqiTlc.jpg?width=400"><div class="rank">3</div></div><div class="card-body"><div class="area">나트랑 시내</div><div class="name">하바나 나트랑</div><div class="usp">나트랑비치 정면</div><div class="price">&#9733; 4.4 &nbsp; 81,214원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/3565590" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/09/24/U2Pc/0KdOWkXUke.jpg?width=400"><div class="rank">4</div></div><div class="card-body"><div class="area">나트랑 시내</div><div class="name">빈펄 엠파이어</div><div class="usp">5성급 6만원대</div><div class="price">&#9733; 4.5 &nbsp; 64,820원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/3198427" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/02/13/LbS1/jkJFNPfmkQ.jpg?width=400"><div class="rank">5</div></div><div class="card-body"><div class="area">나트랑 시내</div><div class="name">리게일리어 골드</div><div class="usp">최저가 5성급</div><div class="price">&#9733; 4.4 &nbsp; 47,093원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/5614898" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/15/xDb6/4jXQK2zYWb.jpg?width=400"><div class="rank">6</div><div class="tag">신상</div></div><div class="card-body"><div class="area">나트랑 시내</div><div class="name">버고 호텔</div><div class="usp">신상 호텔</div><div class="price">&#9733; 4.5 &nbsp; 66,910원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/5871939" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/30/BtAG/R0RgYinZgq.jpg?width=400"><div class="rank">7</div></div><div class="card-body"><div class="area">나트랑 시내</div><div class="name">시에스타</div><div class="usp">평점 최고</div><div class="price">&#9733; 4.7 &nbsp; 65,403원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/5614902" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/01/21/A8xu/jE8bXpPhUJ.jpg?width=400"><div class="rank">8</div></div><div class="card-body"><div class="area">나트랑 시내</div><div class="name">시타딘 베이프런트</div><div class="usp">베이뷰</div><div class="price">&#9733; 4.5 &nbsp; 105,573원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4216261" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2025/10/30/EDKu/kccql8qkPn.jpg?width=400"><div class="rank">9</div></div><div class="card-body"><div class="area">나트랑 시내</div><div class="name">쉐라톤 나트랑</div><div class="usp">글로벌 브랜드</div><div class="price">&#9733; 4.5 &nbsp; 239,004원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/1196445" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/23/MMOC/KALfLFLn0H.jpg?width=400"><div class="rank">10</div></div><div class="card-body"><div class="area">나트랑 시내</div><div class="name">인터컨티넨탈</div><div class="usp">프리미엄 시내</div><div class="price">&#9733; 4.7 &nbsp; 255,283원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/1727197" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2023/04/27/5u5E/r2E9BT38Qh.jpg?width=400"><div class="rank">11</div></div><div class="card-body"><div class="area">혼쩨섬</div><div class="name">빈펄 럭셔리</div><div class="usp">혼쩨섬 · 빈펄랜드</div><div class="price">&#9733; 4.7 &nbsp; 371,197원 <span>/박</span></div></div></a>
+  </div>
+  <a href="https://www.myrealtrip.com/stay-search?keyword=%EB%82%98%ED%8A%B8%EB%9E%91" target="_blank" style="display:block;text-align:center;padding:10px;border:1px solid #eee;border-radius:8px;font-size:12px;font-weight:600;color:#222;text-decoration:none;margin-top:16px">시내 숙소 더보기 &rarr;</a>
+  <div style="display:flex;gap:8px;margin-top:8px">
+    <a href="#area-top" style="flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:11px;font-weight:600;color:#555;text-decoration:none">&#128205; 전체 지도</a>
+    <a href="#camranh" style="flex:1;text-align:center;padding:10px;background:#8b5cf6;border-radius:8px;font-size:11px;font-weight:600;color:#fff;text-decoration:none">&#127958; 깜란 리조트 &darr;</a>
+  </div>
+</section>
+
+<hr>
+
+<!-- 깜란 리조트 TOP 11 -->
+<section class="sec" id="camranh">
+  <div class="sec-title">&#127958; 깜란 리조트 TOP 11</div>
+  <div class="sec-sub">전용해변 &middot; 올인클루시브 &middot; CM 기반 정렬</div>
+  <div class="minimap" style="height:140px">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d20000!2d109.17!3d11.98!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sko!2skr" loading="lazy" style="filter:saturate(.8)"></iframe>
+    <div class="pin" style="top:25%;left:30%;background:#8b5cf6">1</div>
+    <div class="pin" style="top:40%;left:50%;background:#8b5cf6">2</div>
+    <div class="pin" style="top:55%;left:38%;background:#8b5cf6">3</div>
+    <div class="pin" style="top:35%;left:65%;background:#8b5cf6">4</div>
+    <div class="pin" style="top:60%;left:55%;background:#8b5cf6">5</div>
+    <div class="pin" style="top:20%;left:58%;background:#8b5cf6">6</div>
+    <div class="pin" style="top:70%;left:35%;background:#8b5cf6">7</div>
+    <div class="pin" style="top:45%;left:70%;background:#8b5cf6">8</div>
+  </div>
+  <div class="grid">
+    <!-- 1위 featured -->
+    <a href="https://accommodation.myrealtrip.com/union/products/4597538" target="_blank" class="card featured">
+      <div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/04/02/69sp/2n5G5tuvuy.jpg?width=400"><div class="rank">1</div><div class="tag">CM 1위</div></div>
+      <div class="card-body">
+        <div class="area">깜란 · 5성급 리조트</div>
+        <div class="name">멜리아 빈펄 깜란</div>
+        <div class="usp">CM 1위 · 결합구매 최다 · 전용해변</div>
+        <div class="cm-badge">Q1 CM 1,416만 · 242,263원/박</div>
+        <div class="price">&#9733; 4.6 <span style="font-size:11px;color:#222;font-weight:700;margin-left:6px">깜란 대표 픽</span></div>
+      </div>
+    </a>
+    <a href="https://accommodation.myrealtrip.com/union/products/3890511" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/02/19/9Jma/0e7h2Z3UtG.jpg?width=400"><div class="rank">2</div></div><div class="card-body"><div class="area">깜란 · 5성급</div><div class="name">더 아남 깜란</div><div class="usp">프리미엄</div><div class="cm-badge">Q1 CM 330만</div><div class="price">&#9733; 4.7 &nbsp; 292,279원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4416448" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/01/28/tbE9/qBEpxrFXW4.jpg?width=400"><div class="rank">3</div></div><div class="card-body"><div class="area">깜란 · 5성급</div><div class="name">퓨전 깜란</div><div class="usp">올인클루시브 스파</div><div class="cm-badge">Q1 CM 301만</div><div class="price">&#9733; 4.5 &nbsp; 392,282원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/3924428" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/05/auxc/HzQpmprwGm.jpg?width=400"><div class="rank">4</div></div><div class="card-body"><div class="area">깜란 · 5성급</div><div class="name">아나만다라</div><div class="usp">CMR 7.8% 최고</div><div class="cm-badge">Q1 CM 275만</div><div class="price">&#9733; 4.6 &nbsp; 244,949원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4489757" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/27/F7gk/UeikcBA1WK.jpg?width=400"><div class="rank">5</div></div><div class="card-body"><div class="area">깜란 · 5성급</div><div class="name">모벤픽</div><div class="usp">가성비 리조트</div><div class="cm-badge">Q1 CM 258만</div><div class="price">&#9733; 4.3 &nbsp; 177,078원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/5525458" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/18/lFkW/la7pf8sd1Y.jpg?width=400"><div class="rank">6</div></div><div class="card-body"><div class="area">깜란 · 5성급</div><div class="name">아미아나 깜란</div><div class="usp">전용해변 · 스파</div><div class="cm-badge">Q1 CM 241만</div><div class="price">&#9733; 4.1 &nbsp; 226,530원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4883510" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/06/uchX/HD3WlNmj5R.jpeg?width=400"><div class="rank">7</div><div class="tag">신상 럭셔리</div></div><div class="card-body"><div class="area">깜란 · 5성급</div><div class="name">JW 메리어트</div><div class="usp">신상 럭셔리</div><div class="cm-badge">Q1 CM 177만</div><div class="price">&#9733; 5.0 &nbsp; 309,791원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4431356" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2025/05/09/1fK2/vAPUPe5ZdN.png?width=400"><div class="rank">8</div></div><div class="card-body"><div class="area">깜란 · 5성급</div><div class="name">셀렉텀 노아</div><div class="usp">올인클루시브</div><div class="cm-badge">Q1 CM 155만</div><div class="price">&#9733; 4.4 &nbsp; 242,830원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4150262" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/04/04/zkpu/01fGVdWr6P.jpg?width=400"><div class="rank">9</div></div><div class="card-body"><div class="area">깜란 · 5성급</div><div class="name">알마 리조트</div><div class="usp">워터파크 · 가족</div><div class="price">&#9733; 4.6 &nbsp; 432,779원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4684602" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2025/12/12/rWre/mSjHzio8sf.jpg?width=400"><div class="rank">10</div></div><div class="card-body"><div class="area">깜란 · 5성급</div><div class="name">래디슨 블루</div><div class="usp">전용해변 · 스파</div><div class="price">&#9733; 4.4 &nbsp; 176,730원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/3899003" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/02/19/Lbyi/hsYatwd96i.jpg?width=400"><div class="rank">11</div></div><div class="card-body"><div class="area">깜란 · 5성급</div><div class="name">윈덤 가든</div><div class="usp">가성비 리조트</div><div class="price">&#9733; 4.6 &nbsp; 377,363원 <span>/박</span></div></div></a>
+  </div>
+  <a href="https://www.myrealtrip.com/stay-search?keyword=%EB%82%98%ED%8A%B8%EB%9E%91&stayTypes=RESORTS" target="_blank" style="display:block;text-align:center;padding:10px;border:1px solid #eee;border-radius:8px;font-size:12px;font-weight:600;color:#222;text-decoration:none;margin-top:16px">깜란 리조트 더보기 &rarr;</a>
+  <div style="display:flex;gap:8px;margin-top:8px">
+    <a href="#area-top" style="flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:11px;font-weight:600;color:#555;text-decoration:none">&#128205; 전체 지도</a>
+    <a href="#city" style="flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:11px;font-weight:600;color:#555;text-decoration:none">&#127961; 시내 TOP</a>
+    <a href="#cliff" style="flex:1;text-align:center;padding:10px;background:#d97706;border-radius:8px;font-size:11px;font-weight:600;color:#fff;text-decoration:none">&#9968;&#65039; 절벽 라인 &darr;</a>
+  </div>
+</section>
+
+<hr>
+
+<!-- 절벽 라인 -->
+<section class="sec cliff-sec" id="cliff">
+  <div class="sec-title">&#9968;&#65039; 절벽 라인 — 발리 분위기, 절벽 위 오션뷰</div>
+  <div class="sec-sub" style="color:#a16207">나트랑 북쪽 절벽 &middot; 프리미엄 오션뷰 &middot; SN 인기 급상승</div>
+  <div class="grid">
+    <!-- 1위 cliff-featured -->
+    <a href="https://accommodation.myrealtrip.com/union/products/4555760" target="_blank" class="card cliff-featured">
+      <div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/02/10/4Chs/edJNU0hXOU.jpg?width=400"><div class="rank">1</div><div class="tag" style="background:#d97706">CM 2위</div></div>
+      <div class="card-body">
+        <div class="area cliff-label">절벽 라인 · 5성급</div>
+        <div class="name">그란 멜리아</div>
+        <div class="usp">CM 2위 · SN 3위 · 프리미엄 절벽뷰</div>
+        <div class="cm-badge" style="background:#fff3e0;color:#92400e">Q1 CM 492만 · 265,032원/박</div>
+        <div class="price">&#9733; 4.7 <span style="font-size:11px;color:#222;font-weight:700;margin-left:6px">절벽뷰 대표 픽</span></div>
+      </div>
+    </a>
+    <a href="https://accommodation.myrealtrip.com/union/products/5614905" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/03/29/rl2e/0JVMDj6VPL.jpg?width=400"><div class="rank">2</div><div class="tag" style="background:#d97706">SN GMV 1위</div></div><div class="card-body"><div class="area cliff-label">절벽 라인 · 5성급</div><div class="name">아미아나 나트랑</div><div class="usp">SN GMV 1위 · 3월 CM +2,674%</div><div class="price">&#9733; 4.6 &nbsp; 479,321원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4254231" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2026/02/19/gktp/Bd4sHonf0E.jpg?width=400"><div class="rank">3</div><div class="tag" style="background:#d97706">SN 2위</div></div><div class="card-body"><div class="area cliff-label">절벽 라인 · 5성급</div><div class="name">보마 리조트</div><div class="usp">SN 2위 · 가성비 절벽뷰</div><div class="price">&#9733; 4.5 &nbsp; 222,925원 <span>/박</span></div></div></a>
+    <a href="https://accommodation.myrealtrip.com/union/products/4290638" target="_blank" class="card"><div class="card-img"><img src="https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2025/12/12/vh11/TQbSkI9UkX.jpg?width=400"><div class="rank">4</div></div><div class="card-body"><div class="area cliff-label">절벽 라인 · 리조트</div><div class="name">알리부 리조트</div><div class="usp">SN 4위 · 스노쿨링 · 보마/아미아나 대안</div><div class="price">&#9733; 4.6</div></div></a>
+  </div>
+  <div style="display:flex;gap:8px;margin-top:16px">
+    <a href="#area-top" style="flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:11px;font-weight:600;color:#555;text-decoration:none">&#128205; 전체 지도</a>
+    <a href="#city" style="flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:11px;font-weight:600;color:#555;text-decoration:none">&#127961; 시내 TOP</a>
+    <a href="#camranh" style="flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:11px;font-weight:600;color:#555;text-decoration:none">&#127958; 깜란 리조트</a>
+  </div>
+</section>
+
+<!-- 푸터 -->
+<section class="footer">
+  <h2>나트랑 숙소, 고민 끝!</h2>
+  <p>마이리얼트립에서 예약하세요</p>
+  <a href="https://www.myrealtrip.com/stay-search?keyword=%EB%82%98%ED%8A%B8%EB%9E%91" target="_blank" class="footer-btn">나트랑 숙소 전체보기</a>
+</section>
+
+<!-- ===== 로그 & 트래킹 ===== -->
+<script>
+(function(){
+  // ============================
+  // 설정: Google Apps Script URL (구글 시트 적재용)
+  // 아래 URL을 본인의 GAS 웹앱 URL로 교체하세요
+  // ============================
+  var GAS_URL = ''; // 예: 'https://script.google.com/macros/s/xxxxx/exec'
+
+  // --- 1. UTM 수집 ---
+  var params = new URLSearchParams(window.location.search);
+  var utmKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+  var utmParams = {};
+  utmKeys.forEach(function(k){ if(params.get(k)) utmParams[k]=params.get(k); });
+
+  // 상품 링크에 UTM 자동 전달
+  if(Object.keys(utmParams).length > 0){
+    var utmStr = new URLSearchParams(utmParams).toString();
+    document.querySelectorAll('a[href*="accommodation.myrealtrip.com"]').forEach(function(a){
+      a.href += (a.href.indexOf('?')>-1 ? '&' : '?') + utmStr;
+    });
+  }
+
+  // --- 2. 로그 전송 함수 ---
+  function sendLog(data){
+    data.page_url = location.href;
+    data.referrer = document.referrer;
+    data.utm_source = utmParams.utm_source || '';
+    data.utm_medium = utmParams.utm_medium || '';
+    data.utm_campaign = utmParams.utm_campaign || '';
+    data.device = window.innerWidth <= 479 ? 'mobile' : window.innerWidth <= 768 ? 'tablet' : 'desktop';
+    data.timestamp = new Date().toISOString();
+
+    console.log('[TRACK]', data);
+
+    // 구글 시트 적재
+    if(GAS_URL){
+      navigator.sendBeacon(GAS_URL + '?' + new URLSearchParams(data).toString());
+    }
+    // GA4 이벤트
+    if(window.gtag){
+      gtag('event', data.event, {
+        section: data.section,
+        item_name: data.name,
+        item_rank: data.rank
+      });
+    }
+  }
+
+  // --- 3. 페이지뷰 ---
+  sendLog({ event:'pageview', section:'', name:'', rank:'' });
+
+  // --- 4. 상품 카드 클릭 ---
+  document.querySelectorAll('a.card').forEach(function(el){
+    el.addEventListener('click', function(){
+      var sec = el.closest('section');
+      sendLog({
+        event: 'card_click',
+        section: sec && sec.id ? sec.id : (sec && sec.querySelector('.sec-title') ? sec.querySelector('.sec-title').textContent.trim() : ''),
+        name: (el.querySelector('.name') || {}).textContent || '',
+        rank: (el.querySelector('.rank') || {}).textContent || '',
+        gid: (el.href.match(/products\/(\d+)/) || [])[1] || '',
+        href: el.href
+      });
+    });
+  });
+
+  // --- 5. 에리어 존 클릭 (지도) ---
+  document.querySelectorAll('.zone, .area-card').forEach(function(el){
+    el.addEventListener('click', function(){
+      sendLog({
+        event: 'area_click',
+        section: 'map',
+        name: (el.querySelector('.zone-name') || el.querySelector('div') || {}).textContent || '',
+        rank: '',
+        href: el.href
+      });
+    });
+  });
+
+  // --- 6. 더보기 / 네비 버튼 ---
+  document.querySelectorAll('a[href*="myrealtrip.com/stay-search"], a[href="#area-top"], a[href="#city"], a[href="#camranh"], a[href="#cliff"]').forEach(function(el){
+    if(el.closest('.card')) return; // 상품카드 제외
+    el.addEventListener('click', function(){
+      sendLog({
+        event: 'nav_click',
+        section: (el.closest('section') || {}).id || '',
+        name: el.textContent.trim().slice(0,30),
+        rank: '',
+        href: el.href
+      });
+    });
+  });
+})();
+</script>
+
+<!-- GA4 (측정 ID 받으면 주석 해제) -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script> -->
+
+</body>
+</html>
